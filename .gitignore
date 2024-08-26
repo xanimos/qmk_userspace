@@ -9,4 +9,7 @@
 *.hex
 *.bin
 *.uf2
+
+#IDE files
 .idea/
+.vscode/

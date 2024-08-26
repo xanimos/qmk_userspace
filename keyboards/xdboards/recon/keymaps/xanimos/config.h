@@ -28,4 +28,19 @@
 #define PERMISSIVE_HOLD
 #define TAPPING_FORCE_HOLD
 
+
+#define ENABLE_RGB_MATRIX_ALPHAS_MODS
+#define ENABLE_RGB_MATRIX_BREATHING
+#define ENABLE_RGB_MATRIX_JELLYBEAN_RAINDROPS
+#define ENABLE_RGB_MATRIX_DIGITAL_RAIN
+#define ENABLE_RGB_MATRIX_TYPING_HEATMAP
+#define ENABLE_RGB_MATRIX_SPLASH
+#define ENABLE_RGB_MATRIX_RIVERFLOW
+#define ENABLE_RGB_MATRIX_CYCLE_OUT_IN_DUAL
+
+// My dev board is wired with this pin
+// Note: Not compatible with AVR controllers.
+#undef SOFT_SERIAL_PIN
+#define SOFT_SERIAL_PIN B3
+
 #define OLED_TIMEOUT 0      // this is required for custom oled timeout code
