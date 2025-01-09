@@ -1,8 +1,9 @@
-#include "quantum.h"
+
 #include "../xanimos.h"
 #include "oled_basic.h"
 #include "print.h"
 #include "usb_util.h"
+#include "../encoder_x.h"
 
 #ifdef MOUSE_JIGGLE_ENABLE
 #   include "mouse_util.h"
@@ -21,12 +22,12 @@ void oled_render_keylock_status() {
     led_t keyboard_led_state = host_keyboard_led_state();
     oled_write_P(PSTR("\nLock:"), false);
 #ifdef OLED_DISPLAY_128X64
-    oled_write_P(PSTR("\n  "), false);
-    oled_write_P(PSTR("Num"), keyboard_led_state.num_lock);
+    oled_write_P(PSTR("  "), false);
+    oled_write_P(PSTR("N"), keyboard_led_state.num_lock);
     oled_write_P(PSTR(" "), false);
-    oled_write_P(PSTR("Caps"), keyboard_led_state.caps_lock);
+    oled_write_P(PSTR("C"), keyboard_led_state.caps_lock);
     oled_write_P(PSTR(" "), false);
-    oled_write_P(PSTR("Scroll"), keyboard_led_state.scroll_lock);
+    oled_write_P(PSTR("S"), keyboard_led_state.scroll_lock);
 #else
     oled_write_P(PSTR("N"), keyboard_led_state.num_lock);
     oled_write_P(PSTR("C"), keyboard_led_state.caps_lock);
@@ -35,20 +36,9 @@ void oled_render_keylock_status() {
 
 #ifdef MOUSE_JIGGLE_ENABLE
     #ifdef OLED_DISPLAY_128X64
-    oled_write_P(PSTR("\n  "), false);
-    oled_write_P(PSTR("Jiggle"), mouse_state.jiggle);
-    #else
-    oled_write_P(PSTR("J"), mouse_state.jiggle);
+    oled_write_P(PSTR(" "), false);
     #endif
-    if (mouse_state.jiggle) {
-        oled_write_ln_P(PSTR(" "), false);
-        oled_write_P(PSTR("X"), mouse_state.x.move_started);
-        oled_write_P(PSTR(" "), false);
-        oled_write_P(PSTR("Y"), mouse_state.y.move_started);
-    } else {
-        oled_write_ln_P(PSTR(" "), false);
-        oled_write_ln_P(PSTR(" "), false);
-    }
+    oled_write_P(PSTR("J"), mouse_state.jiggle);
 #endif
 }
 
@@ -78,28 +68,30 @@ void oled_render_mod_lock_status(void) {
 
 static const char* layer_text[] = {
 #ifdef OLED_DISPLAY_128X64
+    "Default",
+    "Git Commands",
     "QWERTY",
     "Symbols",
     "Numbers",
     "Function",
-    "Git Commands",
     "Dev Commands",
     "Mod Keys",
-    "Game Mode",
     "Layer Select",
     "Mouse Keys",
+    "Game Mode",
     "Unknown"
 #else
+    "Deflt",
+    "Git:\\",
     "QWERT",
     "$!@#\%",
     "12345",
     "Fn <>",
-    "Git:\\",
     "Dev:\\",
     "Mods ",
-    "Game ",
     "Selct",
     "Mouse",
+    "Game ",
     "Unkwn"
 #endif
 };
@@ -107,7 +99,7 @@ static const char* layer_text[] = {
 void oled_render_layer_state(void) {
     oled_write_P(PSTR("Layer"), false);
     uint8_t current_layer = get_highest_layer(layer_state);
-    if (current_layer < _ALPHA || current_layer > _UNKOWN) {
+    if (current_layer < _DEFAULT || current_layer > _UNKOWN) {
         current_layer = _UNKOWN;
     }
 #ifdef OLED_DISPLAY_128X64
@@ -193,6 +185,12 @@ static void oled_render_logo(void) {
     }
 }
 
+void oled_render_encoder_status() {
+    oled_write_P(PSTR("\nEncoder: "), false);
+    oled_write_P(PSTR(get_current_layer_text()), false);
+    oled_write_P(PSTR("\n"), false);
+}
+
 bool oled_task_user(void) {
     if(!oled_task_km()) {
         return false;
@@ -203,6 +201,7 @@ bool oled_task_user(void) {
         if (!reset_layer.is_led_off) {
             oled_render_layer_state();
             oled_render_mod_lock_status();
+            oled_render_encoder_status();
 #    ifdef LUNA_ENABLE
             led_usb_state = host_keyboard_led_state();
         #ifdef OLED_DISPLAY_128X64

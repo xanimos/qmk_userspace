@@ -1,19 +1,22 @@
 #pragma once
 
+#include "quantum.h"
+
 #define SECONDS * 1000
 #define MINUTES * 60 SECONDS
 
 enum xanimos_layers {
+    _DEFAULT,
+    _GIT,
     _ALPHA,
     _SYMBOLS,
     _NUMBERS,
     _FUNCTION,
-    _GIT,
     _DEV,
     _MODS,
-    _GAMING,
     _LAYERSEL,
     _MOUSE,
+    _GAMING,
     _UNKOWN
 };
 
@@ -118,7 +121,7 @@ enum dev_keycodes {
 #define __________________GIT_L3___________________ G_CHECKB, G_CHECK, G_COMM, G_COMSG, G_BRANH
 #define __________________GIT_R1___________________ G_INIT, G_CLONE, G_REMTE, G_RESET, G_RSTS
 #define __________________GIT_R2___________________ G_STLS, G_STSH, G_STSP, G_STSW, G_RVRT
-#define __________________GIT_R3___________________ G_UPSTM, G_MAIN, G_ORIGN, _______, G_HEAD
+#define __________________GIT_R3___________________ G_UPSTM, G_MAIN, G_ORIGN, KC_DOT, G_HEAD
 
 #define __________________DEV_L1___________________ ___x___, D_NPMI, D_NPMU, D_NPMR, ___x___
 #define __________________DEV_L2___________________ D_DKCSP, D_DKCST, D_DKCUP, D_DKCDN, D_DKCBD
@@ -126,6 +129,8 @@ enum dev_keycodes {
 #define __________________DEV_R1___________________ ___x___, ___x___, ___x___, ___x___, ___x___
 #define __________________DEV_R2___________________ ___x___, D_START, D_LINT , D_STYLE, D_REPRT
 #define __________________DEV_R3___________________ ___x___, ___x___, ___x___, ___x___, ___x___
+
+#define ____________________X______________________ ___x___, ___x___, ___x___, ___x___, ___x___
 
 #ifdef OLED_ENABLE
     typedef struct layer_reset_struct {

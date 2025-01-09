@@ -7,6 +7,10 @@
 #   include "mouse_util.h"
 #endif
 
+#ifdef ENCODER_ENABLE
+#   include "encoder_x.h"
+#endif
+
 #ifdef OLED_ENABLE
     layer_reset_t reset_layer = {
         .is_led_off = false,
@@ -16,7 +20,7 @@
 #endif
 
 void keyboard_post_init_user(void) {
-  //  debug_enable=true;
+    layer_move(_ALPHA);
 }
 
 void matrix_scan_user(void) {
@@ -129,9 +133,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         {
             if (record->event.pressed) {
                 send_string_with_delay(dev_commands[keycode - DEV_KEYCODE_START], 3);
-//                if(keycode == D_DKE) {
-//                    register_
-//                }
             }
         }
         case KC_BSPC:
@@ -195,34 +196,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         }
         case X_ENC1:
         {
+#ifdef ENCODER_ENABLE
+            if (record->event.pressed) {
+                update_current_encoder_layer(false);
+            }
+#endif
             break;
         }
         case X_ENC2:
         {
+#ifdef ENCODER_ENABLE
+            if (record->event.pressed) {
+                update_current_encoder_layer(true);
+            }
+#endif
             break;
         }
     }
     return true;
 }
-
-#ifdef ENCODER_ENABLE
-bool encoder_update_user(uint8_t index, bool clockwise) {
-
-    if (index == 0) {
-        // Volume control
-        if (clockwise) {
-            tap_code(KC_VOLU);
-        } else {
-            tap_code(KC_VOLD);
-        }
-    } else if (index == 1) {
-        // Page up/Page down
-        if (clockwise) {
-            tap_code(KC_PGUP);
-        } else {
-            tap_code(KC_PGDN);
-        }
-    }
-    return false;
-}
-#endif

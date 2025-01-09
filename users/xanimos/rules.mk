@@ -13,6 +13,10 @@ ifeq ($(strip $(MOUSEKEY_ENABLE)), yes)
 		OPT_DEFS += -DMOUSE_JIGGLE_ENABLE
 	endif
 endif
+ifeq ($(strip $(ENCODER_ENABLE)), yes)
+		SRC += encoder_x.c
+		OPT_DEFS += -DENCODER_ENABLE
+endif
 
 ifeq ($(strip $(TAP_DANCE_ENABLE)),yes)
 	SRC += tap_dance.c

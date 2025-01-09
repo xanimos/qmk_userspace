@@ -10,7 +10,8 @@ enum td_keycodes {
     MH_GUI,
     KP_0BS,
     CTL_MOD,
-    HOME_END
+    HOME_END,
+    TD_KEYCODE_SIZE
 };
 
 // Define a type containing as many tapdance states as you need
@@ -46,3 +47,5 @@ void zero_bs_reset(tap_dance_state_t *state, void *user_data);
 
 // functional helpers
 td_state_t tap_hold_dance_state(tap_dance_state_t *state , td_state_t tap, td_state_t hold);
+
+extern tap_dance_action_t tap_dance_actions[TD_KEYCODE_SIZE];

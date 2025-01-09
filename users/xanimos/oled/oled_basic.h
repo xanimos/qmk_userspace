@@ -32,6 +32,7 @@ void oled_render_keylock_status(void);
 void oled_render_mod_status(uint8_t modifiers);
 void oled_render_mod_lock_status(void);
 void oled_render_layer_state(void);
+void oled_render_encoder_status(void);
 
 static void oled_render_logo(void);
 
